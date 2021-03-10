@@ -1,65 +1,53 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+// import Head from "next/head";
+// import styles from "../styles/Home.module.css";
+import Layout from "../components/layout";
+import { gql, useQuery } from "@apollo/client";
+import Link from "next/link";
+import Client from '../components/client'
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+const GET_CLIENTS = gql`
+    query getClientsSeller {
+        getClientsSeller {
+            id
+            name
+            surname
+            company
+            email
+        }
+    }
+`;
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+const Index = () => {
+    // Apollo to GraphQL query
+    const { loading, data, error } = useQuery(GET_CLIENTS);
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+    if (loading) return "Loading";
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+    return (
+        <Layout>
+            <h1 className="text-2xl text-gray-800 font-light">Clients</h1>
+            <Link href="/newclient" >
+                <a className="bg-blue-800 py-2 px-5 mt-5 inline-block rounded text-white hover:bg-gray-800 mb-3 uppercase">New Client</a>
+            </Link>
+            <table className="table-auto shadow-md mt-10 w-full w-lg">
+                <thead className="bg-gray-800">
+                    <tr className="text-white">
+                        <th className="w-1/5 py-2">Name</th>
+                        <th className="w-1/5 py-2">Company</th>
+                        <th className="w-1/5 py-2">Email</th>
+                        <th className="w-1/5 py-2">Delete</th>
+                        <th className="w-1/5 py-2">Delete</th>
+                    </tr>          
+                </thead>
+                <tbody>
+                    {data.getClientsSeller.map((client, idx) => (
+                       <Client key={idx} client={client} />
+                    ))}
+                </tbody>
+            </table>
+        </Layout>
+    );
+};
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
-}
+export default Index;

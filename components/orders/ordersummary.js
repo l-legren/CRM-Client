@@ -1,0 +1,31 @@
+import { useContext } from "react";
+import OrderContext from "../../context/orders/orderContext";
+import ProductSummary from "./productsummary";
+
+const OrderSummary = () => {
+    // Import the context so we can use the functions stored in the state
+    const orderContext = useContext(OrderContext);
+    const { products } = orderContext;
+
+    console.log("Products in OrderSummary", products);
+
+    return (
+        <>
+            <h2 className="mt-10 my-2 bg-white border-l-4 border-gray-800 text-gray-700 text-sm font-bold p-2 rounded">
+                3. How many items?
+            </h2>
+            {/* <ProductSummary product={products } /> */}
+            {products.length > 0 ? (
+                <>
+                    {products.map(product => {
+                        return <ProductSummary key={products.id} product={product} />
+                    })}
+                </>
+            ) : (
+                <p className="mt-5">"There are no products yet</p>
+            )}
+        </>
+    );
+};
+
+export default OrderSummary;
