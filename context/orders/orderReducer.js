@@ -1,27 +1,32 @@
-import {
-    CHOOSE_CLIENT,
-    CHOOSE_PRODUCT,
-    QUANTITY_PRODUCTS
-} from "../../types";
+import { CHOOSE_CLIENT, CHOOSE_PRODUCT, QUANTITY_PRODUCTS } from "../../types";
 
 const OrderReducer = (state, action) => {
-    switch(action.type) {
-
+    switch (action.type) {
         case CHOOSE_CLIENT:
             return {
                 ...state,
-                client: action.payload
-            }
+                client: action.payload,
+            };
 
         case CHOOSE_PRODUCT:
             return {
                 ...state,
-                products: action.payload
-            }
+                products: action.payload,
+            };
 
-        default: 
-            return state
+        case QUANTITY_PRODUCTS:
+            return {
+                ...state,
+                products: state.products.map((prod) =>
+                    prod.id == action.payload.id
+                        ? (prod = action.payload)
+                        : prod
+                ),
+            };
+
+        default:
+            return state;
     }
-}
+};
 
-export default OrderReducer
+export default OrderReducer;

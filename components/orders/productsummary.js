@@ -1,4 +1,23 @@
+import { useContext, useEffect, useState } from "react";
+import OrderContext from "../../context/orders/orderContext";
+
 const ProductSummary = ({ product }) => {
+    // Order Context
+    const orderContext = useContext(OrderContext);
+    const { quantityProducts } = orderContext;
+
+    const [quantity, setQuantity] = useState(0);
+
+    useEffect(() => {
+        updateQuantity()
+    }, [quantity]);
+
+    const updateQuantity = () => {
+        const newProduct = { ...product, quantity: Number(quantity) };
+        quantityProducts(newProduct);
+        console.log("New Product", newProduct);
+    };
+
     const { name, price } = product;
 
     return (
@@ -11,6 +30,8 @@ const ProductSummary = ({ product }) => {
                 type="number"
                 placeholder="Quantity"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:ml-4"
+                onChange={(e) => setQuantity(e.target.value)}
+                value={quantity}
             />
         </div>
     );

@@ -20,34 +20,6 @@ const Orders = () => {
             </Link>
             
             <AssignClient />
-
-            {/* <table className="w-full table-auto shadow-md mt-10 w-full w-lg">
-                <thead>
-                    <tr>
-                        <th classname="bg-blue-800 text-white w-1/6 text-center px-3 py-2">
-                            Order
-                        </th>
-                        <th classname="bg-blue-800 text-white w-1/6 text-center px-3 py-2">
-                            Total
-                        </th>
-                        <th classname="bg-blue-800 text-white w-1/6 text-center px-3 py-2">
-                            Client
-                        </th>
-                        <th classname="bg-blue-800 text-white w-1/6 text-center px-3 py-2">
-                            Seller
-                        </th>
-                        <th classname="bg-blue-800 text-white w-1/6 text-center px-3 py-2">
-                            Delete
-                        </th>
-                        <th classname="bg-blue-800 text-white w-1/6 text-center px-3 py-2">
-                            Edit
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <Order />
-                </tbody>
-            </table> */}
         </Layout>
     );
 };

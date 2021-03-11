@@ -14,12 +14,11 @@ const OrderSummary = () => {
             <h2 className="mt-10 my-2 bg-white border-l-4 border-gray-800 text-gray-700 text-sm font-bold p-2 rounded">
                 3. How many items?
             </h2>
-            {/* <ProductSummary product={products } /> */}
             {products.length > 0 ? (
                 <>
-                    {products.map(product => {
-                        return <ProductSummary key={products.id} product={product} />
-                    })}
+                    {products.map((product) => (
+                        <ProductSummary key={product.id} product={product} />
+                    ))}
                 </>
             ) : (
                 <p className="mt-5">"There are no products yet</p>

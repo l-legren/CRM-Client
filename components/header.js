@@ -16,7 +16,7 @@ const Header = () => {
     const { data, loading, error } = useQuery(GET_USER);
 
     // Important not to fetch data before we get the results
-    if (loading) return "Loading...";
+    if (loading) return null;
 
     // Check if we come back without token
     if (!data.getUser) {

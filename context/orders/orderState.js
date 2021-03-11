@@ -31,9 +31,18 @@ const OrderState = ({ children }) => {
         });
     };
 
+    // Modify quantities
+    const quantityProducts = (productAdded) => {
+        console.log("Modifying from state", productAdded);
+        dispatch({
+            type: QUANTITY_PRODUCTS,
+            payload: productAdded
+        })
+    };
+
     return (
         <OrderContext.Provider
-            value={{ products: state.products, addClient, addProducts }}
+            value={{ products: state.products, addClient, addProducts, quantityProducts }}
         >
             {children}
         </OrderContext.Provider>

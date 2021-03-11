@@ -25,16 +25,15 @@ const AssigProduct = () => {
     const chooseProduct = (product) => {
         setProducts(product);
     };
+    // Data from DB
+    const { data, loading, error } = useQuery(GET_PRODUCTS);
     
     useEffect(() => {
         // From here we have to pass to OrderState
         addProducts(products);
     }, [products]);
         
-    // Data from DB
-    const { data, loading, error } = useQuery(GET_PRODUCTS);
-    if (loading) return null;
-    
+    if (loading) return null;  
     const { getProducts } = data;
         
     return (
@@ -43,12 +42,13 @@ const AssigProduct = () => {
                 2. Choose or search for products
             </h2>
             <Select
+                className="mt-3"
                 options={getProducts}
                 isMulti={true}
-                onChange={(product) => chooseProduct(product)}
-                getOptionValue={(product) => product.id}
-                getOptionLabel={(product) =>
-                    `${product.name} - ${product.stock} available`
+                onChange={(option) => chooseProduct(option)}
+                getOptionValue={(option) => option.id}
+                getOptionLabel={(option) =>
+                    `${option.name} - ${option.stock} available`
                 }
                 placeholder="Choose product"
                 noOptionsMessage={() => "No products found"}
