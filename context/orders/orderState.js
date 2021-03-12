@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import OrderContext from "./orderContext";
 import OrderReducer from "./orderReducer";
 
-import { CHOOSE_CLIENT, CHOOSE_PRODUCT, QUANTITY_PRODUCTS } from "../../types";
+import { CHOOSE_CLIENT, CHOOSE_PRODUCT, QUANTITY_PRODUCTS, UPDATE_TOTAL } from "../../types";
 
 const OrderState = ({ children }) => {
     // Order State
@@ -44,20 +44,31 @@ const OrderState = ({ children }) => {
 
     // Modify quantities
     const quantityProducts = (productAdded) => {
-        console.log("Modifying from state", productAdded);
+        // console.log("Modifying from state", productAdded);
         dispatch({
             type: QUANTITY_PRODUCTS,
             payload: productAdded,
         });
     };
 
+    const updateTotal = (productsTotal) => {
+        // console.log("Updating total....")
+        dispatch({
+            type: UPDATE_TOTAL,
+            payload: productsTotal
+        })
+    }
+
     return (
         <OrderContext.Provider
             value={{
                 products: state.products,
+                total: state.total,
+                client: state.client,
                 addClient,
                 addProducts,
                 quantityProducts,
+                updateTotal
             }}
         >
             {children}

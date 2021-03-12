@@ -7,13 +7,12 @@ const OrderSummary = () => {
     const orderContext = useContext(OrderContext);
     const { products } = orderContext;
 
-    console.log("Products in OrderSummary", products);
-
     return (
         <>
             <h2 className="mt-10 my-2 bg-white border-l-4 border-gray-800 text-gray-700 text-sm font-bold p-2 rounded">
                 3. How many items?
             </h2>
+
             {products.length > 0 ? (
                 <>
                     {products.map((product) => (

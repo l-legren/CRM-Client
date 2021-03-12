@@ -4,18 +4,20 @@ import OrderContext from "../../context/orders/orderContext";
 const ProductSummary = ({ product }) => {
     // Order Context
     const orderContext = useContext(OrderContext);
-    const { quantityProducts } = orderContext;
+    const { quantityProducts, updateTotal } = orderContext;
 
     const [quantity, setQuantity] = useState(0);
 
     useEffect(() => {
         updateQuantity()
+        updateTotal()
     }, [quantity]);
 
     const updateQuantity = () => {
         const newProduct = { ...product, quantity: Number(quantity) };
+        // console.log("New Product", newProduct);
         quantityProducts(newProduct);
-        console.log("New Product", newProduct);
+        updateTotal(newProduct)
     };
 
     const { name, price } = product;
