@@ -7,6 +7,7 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
+    ResponsiveContainer,
 } from "recharts";
 import { gql, useQuery } from "@apollo/client";
 import { argumentsObjectFromField } from "@apollo/client/utilities";
@@ -29,14 +30,13 @@ const BestSellers = () => {
         BEST_SELLERS
     );
 
-    
-        useEffect(() => {
-            startPolling(1000);
-            return () => {
-                stopPolling();
-            };
-        }, [startPolling, stopPolling]);
-    
+    useEffect(() => {
+        startPolling(1000);
+        return () => {
+            stopPolling();
+        };
+    }, [startPolling, stopPolling]);
+
     if (loading) return null;
 
     const { bestSellers } = data;
@@ -54,25 +54,27 @@ const BestSellers = () => {
 
     return (
         <Layout>
-            <BarChart
-                className="mt-10"
-                width={600}
-                height={500}
-                data={sellerGraphic}
-                margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                }}
-            >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="total" fill="#3182CE" />
-            </BarChart>
+            <ResponsiveContainer width={"99%"} height={550} >
+                <BarChart
+                    className="mt-10"
+                    // width={600}
+                    // height={500}
+                    data={sellerGraphic}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="total" fill="#3182CE" />
+                </BarChart>
+            </ResponsiveContainer>
         </Layout>
     );
 };

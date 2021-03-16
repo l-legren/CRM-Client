@@ -33,8 +33,8 @@ const Header = () => {
 
     return (
         <>
-            <div className="flex justify-between">
-                <p className="mr-2 py-1 text-xl">Hi {name}!</p>
+            <div className="sm:flex justify-between">
+                <p className="mr-2 mb-5 lg:mb-0 py-1 text-xl">Hi {name}!</p>
                 <button
                     onClick={handleLogOut}
                     type="button"
