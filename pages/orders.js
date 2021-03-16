@@ -1,14 +1,41 @@
 import { gql, useQuery } from "@apollo/client";
-import Head from "next/head";
 import Link from "next/link";
 import Layout from "../components/layout";
 import Order from "../components/orders/order";
-import Select from "react-select";
 import { useEffect, useReducer, useState } from "react";
-import AssignClient from '../components/orders/assignclient'
 
+const GET_ORDERS = gql`
+query getOrderBySeller {
+    getOrderBySeller {
+        id
+        order {
+            id
+            quantity
+            name
+        }
+        client {
+            id
+            name
+            surname
+            email
+            phone
+        }
+        seller
+        total
+        status
+    }
+}
+`
 
 const Orders = () => {
+
+    const {loading, data, error} = useQuery(GET_ORDERS)
+
+    console.log(data)
+
+    if (loading) return "Loading..."
+    
+    const {getOrderBySeller} = data
 
     return (
         <Layout>
@@ -19,7 +46,10 @@ const Orders = () => {
                 </a>
             </Link>
             
-            <AssignClient />
+            { getOrderBySeller.length == 0 ? (<p className="text-center text-2xl mt-5">No orders yet</p>) : (
+                getOrderBySeller.map((order,idx) => <Order key={idx} order={order} />)
+            )}
+
         </Layout>
     );
 };
