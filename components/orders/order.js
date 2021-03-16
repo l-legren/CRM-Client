@@ -1,11 +1,25 @@
 import { gql, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
-
+import Swal from 'sweetalert2'
 
 const UPDATE_ORDER = gql`
     mutation updateOrder($id: ID!, $input: OrderInput) {
         updateOrder(id: $id, input: $input) {
             status
+        }
+    }
+`;
+
+const DELETE_ORDER = gql`
+mutation deleteOrder ($id: ID!) {
+    deleteOrder(id: $id)
+}
+`
+
+const GET_ORDERS = gql`
+    query getOrderBySeller {
+        getOrderBySeller {
+            id
         }
     }
 `;
@@ -21,9 +35,21 @@ const Order = ({ order }) => {
     const [color, setColor] = useState("");
 
 
-    // Mutation for changing status 
-
+    // Mutation for changing status and deleting
     const [updateOrder] = useMutation(UPDATE_ORDER)
+    const [deleteOrder] = useMutation(DELETE_ORDER, {
+        update(cache) {
+            const { getOrderBySeller } = cache.readQuery({ query: GET_ORDERS })
+            cache.evict({ broadcast: false })
+            cache.writeQuery({
+                query: GET_ORDERS,
+                data: {
+                    getOrderBySeller: getOrderBySeller.filter(order => {
+                    return order.id !== id
+                })}
+            })
+        }
+    })
 
     useEffect(() => {
         if (orderStatus) {
@@ -59,6 +85,32 @@ const Order = ({ order }) => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const confirmDeleteOrder = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    // Delete by ID
+                    const { data } = await deleteOrder({
+                        variables: {
+                            id,
+                        },
+                    });
+                    Swal.fire("Deleted!", data.deleteOrder, "success");
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        });
     }
 
     return (
@@ -126,7 +178,7 @@ const Order = ({ order }) => {
                     </div>
                 ))}
                 <p className="font-light">Total to pay: {total} €</p>
-                <button className="flex items-center mt-4 bg-red-800 px-5 py-2 inline-block text-white rounded uppercase text-sm font-bold">
+                <button onClick={confirmDeleteOrder} className="flex items-center mt-4 bg-red-800 px-5 py-2 inline-block text-white rounded uppercase text-sm font-bold">
                     Delete Order
                     <svg
                         fill="none"

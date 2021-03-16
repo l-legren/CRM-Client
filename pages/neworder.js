@@ -17,13 +17,48 @@ const NEW_ORDER = gql`
     }
 `;
 
+
+const GET_ORDERS = gql`
+    query getOrderBySeller {
+        getOrderBySeller {
+            id
+            order {
+                id
+                quantity
+                name
+            }
+            client {
+                id
+                name
+                surname
+                email
+                phone
+            }
+            seller
+            total
+            status
+        }
+    }
+`;
+
 const NewOrder = () => {
     // Context
     const orderContext = useContext(OrderContext);
     const { products, total, client } = orderContext;
 
     // Mutation newOrder
-    const [newOrder] = useMutation(NEW_ORDER);
+    const [newOrder] = useMutation(NEW_ORDER, {
+        update(cache, { data: { newOrder } }) {
+            const { getOrders } = cache.readQuery({ query: GET_ORDERS })
+            cache.evict({ broadcast: false });
+            cache.writeQuery({
+                query: GET_ORDERS,
+                data: {
+                    getProducts: { ...getOrders, newOrder },
+                },
+            });
+        }
+    });
 
     const [message, setMessage] = useState(null);
     // console.log("Products in OrderSummary", products);
