@@ -10,19 +10,63 @@ const Sidebar = () => {
                 <p className="text-white font-bold text-2xl">CRM SIDEBAR</p>
             </div>
             <nav className="mt-5 list-none">
-                <li className={router.pathname == "/" ? "bg-blue-800 p-2" : "p-2"}>
+                <li
+                    className={
+                        router.pathname == "/" ? "bg-blue-800 p-2" : "p-2"
+                    }
+                >
                     <Link href="/">
                         <a className="text-white mb-2 block">Clients</a>
                     </Link>
                 </li>
-                <li className={router.pathname == "/orders" ? "bg-blue-800 p-2" : "p-2"}>
+                <li
+                    className={
+                        router.pathname == "/orders" ? "bg-blue-800 p-2" : "p-2"
+                    }
+                >
                     <Link href="/orders">
                         <a className="text-white mb-2 block">Orders</a>
                     </Link>
                 </li>
-                <li className={router.pathname == "/products" ? "bg-blue-800 p-2" : "p-2"}>
+                <li
+                    className={
+                        router.pathname == "/products"
+                            ? "bg-blue-800 p-2"
+                            : "p-2"
+                    }
+                >
                     <Link href="/products">
                         <a className="text-white mb-2 block">Products</a>
+                    </Link>
+                </li>
+            </nav>
+
+            <div className="sm:mt-10">
+                <p className="text-white font-bold text-2xl">Others</p>
+            </div>
+
+            <nav className="mt-5 list-none">
+                <li
+                    className={
+                        router.pathname == "/bestsellers"
+                            ? "bg-blue-800 p-2"
+                            : "p-2"
+                    }
+                >
+                    <Link href="/bestsellers">
+                        <a className="text-white mb-2 block">Best sellers</a>
+                    </Link>
+                </li>
+
+                <li
+                    className={
+                        router.pathname == "/bestclients"
+                            ? "bg-blue-800 p-2"
+                            : "p-2"
+                    }
+                >
+                    <Link href="/bestclients">
+                        <a className="text-white mb-2 block">Best clients</a>
                     </Link>
                 </li>
             </nav>
